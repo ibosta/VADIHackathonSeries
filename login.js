@@ -1,18 +1,10 @@
 import supabase from './supabase.js';
 
-console.log('Login.js yüklendi');
-console.log('Supabase:', supabase);
-
 const form = document.getElementById('loginForm')
 const result = document.getElementById('result')
 
-if (!form) {
-    console.error('Form bulunamadı!');
-}
-
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    console.log('Form submit edildi');
 
     const email = document.getElementById('email').value
     const password = document.getElementById('password').value

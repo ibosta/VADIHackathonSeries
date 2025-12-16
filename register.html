@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,67 +10,116 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-  <section class="vh-100">
+  <main class="vh-100">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-6 text-black">
+        <section class="col-sm-6 col-form text-black" aria-label="Kayıt Formu">
+          <div class="form-wrapper">
+            <header class="logo-section">
+              <img src="img/logo.png" alt="Dosya Vadisi Logosu" class="logo-image me-3">
+              <h1 class="h1 fw-bold mb-0">Dosya Vadisi</h1>
+            </header>
 
-          <div class="px-5 ms-xl-4 logo-section pt-5 mt-xl-4">
-            <img src="img/logo.png" alt="Dosya Vadisi" class="logo-image me-3">
-            <span class="h1 fw-bold mb-0">Dosya Vadisi</span>
-          </div>
+            <form id="signupForm" class="form-container" novalidate aria-labelledby="form-title">
 
-          <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
-
-            <form id="signupForm" style="width: 23rem;">
-
-              <h3 class="fw-normal mb-3 pb-3 form-title">Kayıt Ol</h3>
+              <h2 id="form-title" class="fw-normal mb-3 pb-3 form-title">Kayıt Ol</h2>
 
               <div class="form-outline mb-4">
                 <label class="form-label" for="email">E-posta Adresi</label>
-                <input type="email" id="email" class="form-control form-control-lg" placeholder="ornek@email.com" required />
+                <input type="email" id="email" name="email" class="form-control form-control-lg"
+                  placeholder="ornek@email.com" required autocomplete="email" aria-required="true"
+                  aria-describedby="email-help" />
               </div>
 
               <div class="form-outline mb-4">
                 <label class="form-label" for="password">Şifre</label>
-                <input type="password" id="password" class="form-control form-control-lg" placeholder="••••••••" required />
+                <input type="password" id="password" name="password" class="form-control form-control-lg"
+                  placeholder="••••••••" required autocomplete="new-password" aria-required="true" minlength="6"
+                  aria-describedby="password-help" />
+                <small id="password-help" class="form-text text-muted">En az 6 karakter olmalıdır</small>
               </div>
 
               <div class="form-outline mb-4">
                 <label class="form-label" for="confirmPassword">Şifre Tekrar</label>
-                <input type="password" id="confirmPassword" class="form-control form-control-lg" placeholder="••••••••" required />
+                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control form-control-lg"
+                  placeholder="••••••••" required autocomplete="new-password" aria-required="true" minlength="6" />
               </div>
 
               <div class="pt-1 mb-4">
-                <button class="btn btn-info btn-lg btn-block w-100" type="submit">Kayıt Ol</button>
+                <button class="btn btn-info btn-lg btn-block w-100" type="submit" aria-label="Kayıt ol">
+                  Kayıt Ol
+                </button>
               </div>
 
-              <div id="result"></div>
+              <div id="result" role="alert" aria-live="polite"></div>
 
               <p>Zaten hesabınız var mı? <a href="login.html" class="link-info">Giriş yapın</a></p>
 
             </form>
-
           </div>
+        </section>
 
-        </div>
-        <div class="col-sm-6 px-0 d-none d-sm-block">
+        <aside class="col-sm-6 col-image px-0" aria-label="Platform Avantajları">
           <div class="bg-image-vertical vh-100 image-overlay">
             <div class="image-overlay-content">
-              <div class="welcome-icon">
-                <i class="fas fa-user-plus"></i>
+
+              <div class="animation-container">
+                <div class="transfer-system">
+                  <!-- Orbit Rings -->
+                  <div class="orbit orbit-1"></div>
+                  <div class="orbit orbit-2"></div>
+
+                  <!-- Connection Lines -->
+                  <div class="connection-line line-1"></div>
+                  <div class="connection-line line-2"></div>
+                  <div class="connection-line line-3"></div>
+                  <div class="connection-line line-4"></div>
+
+                  <!-- Central Hub -->
+                  <div class="central-hub">
+                    <i class="fas fa-rocket hub-icon"></i>
+                  </div>
+
+                  <!-- Floating Files -->
+                  <div class="file-item file-1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="file-item file-2">
+                    <i class="fas fa-image"></i>
+                  </div>
+                  <div class="file-item file-3">
+                    <i class="fas fa-file-pdf"></i>
+                  </div>
+                </div>
               </div>
-              <h2>Aramıza Katılın</h2>
-              <p>Güvenli dosya paylaşım platformumuza katılın.<br/>
-                Hemen ücretsiz hesap oluşturun ve başlayın.</p>
+
+              <h2>Hemen Başlayın</h2>
+              <p>Ücretsiz hesap oluşturun ve tüm özelliklerden yararlanın</p>
+
+              <ul class="feature-list">
+                <li>
+                  <i class="fas fa-rocket"></i>
+                  <span>Hızlı dosya transferi</span>
+                </li>
+                <li>
+                  <i class="fas fa-key"></i>
+                  <span>End-to-end şifreleme</span>
+                </li>
+                <li>
+                  <i class="fas fa-clock"></i>
+                  <span>Süreli dosya sistemi</span>
+                </li>
+              </ul>
             </div>
           </div>
-        </div>
+        </aside>
       </div>
     </div>
-  </section>
+  </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="register.js"></script>
 </body>
+
 </html>

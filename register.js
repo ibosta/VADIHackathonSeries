@@ -11,16 +11,9 @@ async function handleUserRegistration(email, password) {
     button.textContent = 'Kayıt yapılıyor...';
     button.disabled = true;
 
-    resultDiv.textContent = "Kayıt işlemi başladı, lütfen bekleyin...";
-    resultDiv.className = '';
-    resultDiv.style.display = 'block';
-    resultDiv.style.background = 'linear-gradient(135deg, rgba(0, 184, 228, 0.15) 0%, rgba(0, 102, 179, 0.15) 100%)';
-    resultDiv.style.color = '#0066B3';
-    resultDiv.style.border = '2px solid #00B8E4';
-    resultDiv.style.padding = '12px 15px';
-    resultDiv.style.borderRadius = '8px';
-    resultDiv.style.marginTop = '20px';
-    resultDiv.style.fontWeight = '500';
+    resultDiv.textContent = "⏳ Kayıt işlemi başladı, lütfen bekleyin...";
+    resultDiv.className = 'alert alert-info';
+    resultDiv.setAttribute('role', 'alert');
 
     const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
