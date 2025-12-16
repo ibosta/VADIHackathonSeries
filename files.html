@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dosyalarım</title>
+</head>
+<body>
+
+<div class="container">
+    <h2>
+        Dosyalarım
+        <a href="upload.html" class="btn-upload">Yeni Dosya Yükle</a>
+    </h2>
+    
+    <div id="status" class="error"></div>
+
+    <table id="filesTable">
+        <thead>
+            <tr>
+                <th>Dosya Adı</th>
+                <th>Tarih</th>
+                <th>Boyut</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody id="fileList">
+            </tbody>
+    </table>
+    <div id="loading">Yükleniyor...</div>
+</div>
+
+<script type="module" src="files.js"></script>
+
+</body>
+</html>

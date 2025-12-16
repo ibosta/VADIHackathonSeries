@@ -53,16 +53,6 @@ export async function generateEncryptedKeys(password) {
     };
 }
 
-function base64ToArrayBuffer(base64) {
-    const binaryString = window.atob(base64);
-    const len = binaryString.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-    }
-    return bytes.buffer;
-}
-
 async function importPublicKey(base64Key) {
     const binaryKey = base64ToArrayBuffer(base64Key);
     return await window.crypto.subtle.importKey(
@@ -116,4 +106,77 @@ export async function encryptFileForUpload(file, publicKeyBase64) {
         iv: arrayBufferToBase64(iv),
         encryptedAesKey: arrayBufferToBase64(encryptedAesKeyBuffer)
     };
+}
+
+function base64ToArrayBuffer(base64) {
+    const binaryString = window.atob(base64);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
+export async function decryptFile(fileBlob, metadata, encryptedPrivateKey, password) {
+    const enc = new TextEncoder();
+
+    const fixedSalt = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+
+    const material = await window.crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]);
+    const wrappingKey = await window.crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt: fixedSalt, iterations: 100000, hash: "SHA-256" },
+        material,
+        { name: "AES-GCM", length: 256 },
+        false,
+        ["decrypt"]
+    );
+
+    const encryptedPrivKeyBuffer = base64ToArrayBuffer(encryptedPrivateKey);
+    const privKeyIV = encryptedPrivKeyBuffer.slice(0, 12);
+    const privKeyData = encryptedPrivKeyBuffer.slice(12);
+
+    let privateKey;
+    try {
+        const privateKeyBuffer = await window.crypto.subtle.decrypt(
+            { name: "AES-GCM", iv: privKeyIV },
+            wrappingKey,
+            privKeyData
+        );
+        privateKey = await window.crypto.subtle.importKey(
+            "pkcs8",
+            privateKeyBuffer,
+            { name: "RSA-OAEP", hash: "SHA-256" },
+            true,
+            ["decrypt"]
+        );
+    } catch (e) {
+        throw new Error("Şifre yanlış! Private Key çözülemedi.");
+    }
+
+    const encryptedAesKeyBuffer = base64ToArrayBuffer(metadata.encryption_key);
+    const rawAesKeyBuffer = await window.crypto.subtle.decrypt(
+        { name: "RSA-OAEP" },
+        privateKey,
+        encryptedAesKeyBuffer
+    );
+
+    const aesKey = await window.crypto.subtle.importKey(
+        "raw",
+        rawAesKeyBuffer,
+        { name: "AES-GCM" },
+        false,
+        ["decrypt"]
+    );
+
+    const fileBuffer = await fileBlob.arrayBuffer();
+    const fileIV = base64ToArrayBuffer(metadata.encryption_iv);
+
+    const decryptedContent = await window.crypto.subtle.decrypt(
+        { name: "AES-GCM", iv: fileIV },
+        aesKey,
+        fileBuffer
+    );
+
+    return new Blob([decryptedContent], { type: metadata.mime_type });
 }
