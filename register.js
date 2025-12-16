@@ -11,15 +11,16 @@ async function handleUserRegistration(email, password) {
     button.textContent = 'Kayıt yapılıyor...';
     button.disabled = true;
 
-    resultDiv.textContent = "⏳ Kayıt işlemi başladı, lütfen bekleyin...";
+    resultDiv.textContent = "Kayıt işlemi başladı, lütfen bekleyin...";
     resultDiv.className = '';
     resultDiv.style.display = 'block';
-    resultDiv.style.background = '#d1ecf1';
-    resultDiv.style.color = '#0c5460';
-    resultDiv.style.border = '1px solid #bee5eb';
+    resultDiv.style.background = 'linear-gradient(135deg, rgba(0, 184, 228, 0.15) 0%, rgba(0, 102, 179, 0.15) 100%)';
+    resultDiv.style.color = '#0066B3';
+    resultDiv.style.border = '2px solid #00B8E4';
     resultDiv.style.padding = '12px 15px';
     resultDiv.style.borderRadius = '8px';
     resultDiv.style.marginTop = '20px';
+    resultDiv.style.fontWeight = '500';
 
     const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
@@ -38,7 +39,7 @@ async function handleUserRegistration(email, password) {
     const userId = authData.user.id;
 
     console.log("Anahtarlar üretiliyor...");
-    resultDiv.textContent = "🔐 Kullanıcı oluşturuldu. Şifreleme anahtarları üretiliyor...";
+    resultDiv.textContent = "Kullanıcı oluşturuldu. Şifreleme anahtarları üretiliyor...";
 
     try {
         const keys = await generateEncryptedKeys(password);
@@ -59,7 +60,7 @@ async function handleUserRegistration(email, password) {
             button.disabled = false;
         } else {
             console.log("Başarılı!");
-            resultDiv.textContent = "✅ Kayıt başarılı! Anahtarlar güvenle oluşturuldu. Yönlendiriliyorsunuz...";
+            resultDiv.textContent = "Kayıt başarılı! Anahtarlar güvenle oluşturuldu. Yönlendiriliyorsunuz...";
             resultDiv.className = 'success';
 
             registerForm.reset();
@@ -71,7 +72,7 @@ async function handleUserRegistration(email, password) {
 
     } catch (err) {
         console.error("Anahtar üretim hatası:", err);
-        resultDiv.textContent = "❌ Kriptografik hata oluştu: " + err.message;
+        resultDiv.textContent = "Kriptografik hata oluştu: " + err.message;
         resultDiv.className = 'error';
         button.textContent = originalText;
         button.disabled = false;
@@ -87,7 +88,7 @@ registerForm.addEventListener('submit', async (e) => {
 
     // Şifre kontrolü
     if (password !== confirmPassword) {
-        resultDiv.textContent = "❌ Şifreler eşleşmiyor! Lütfen aynı şifreyi girin.";
+        resultDiv.textContent = "Şifreler eşleşmiyor! Lütfen aynı şifreyi girin.";
         resultDiv.className = 'error';
         resultDiv.style.display = 'block';
         return;
@@ -95,7 +96,7 @@ registerForm.addEventListener('submit', async (e) => {
 
     // Şifre uzunluk kontrolü
     if (password.length < 6) {
-        resultDiv.textContent = "❌ Şifre en az 6 karakter olmalıdır.";
+        resultDiv.textContent = "Şifre en az 6 karakter olmalıdır.";
         resultDiv.className = 'error';
         resultDiv.style.display = 'block';
         return;
