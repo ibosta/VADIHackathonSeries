@@ -1,0 +1,372 @@
+/* ==================== */
+/* Color Variables      */
+/* ==================== */
+:root {
+  --primary-blue: #0066B3;
+  --secondary-blue: #00B8E4;
+  --dark-gray: #2B2B2B;
+  --black: #000000;
+}
+
+/* ==================== */
+/* Global Styles        */
+/* ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* ==================== */
+/* Layout               */
+/* ==================== */
+.vh-100 {
+  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+.container-fluid {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.row {
+  height: 100%;
+  margin: 0;
+}
+
+/* ==================== */
+/* Left Panel (Form)    */
+/* ==================== */
+.text-black {
+  background-color: #ffffff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.logo-section {
+  color: var(--primary-blue);
+  display: flex;
+  align-items: center;
+}
+
+.logo-section i {
+  color: var(--primary-blue) !important;
+}
+
+.logo-section .h1 {
+  color: var(--dark-gray);
+  font-weight: 700;
+}
+
+.logo-image {
+  max-width: 150px;
+  height: auto;
+  display: inline-block;
+}
+
+.form-title {
+  color: var(--dark-gray);
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* ==================== */
+/* Form Styles          */
+/* ==================== */
+.form-control {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+.form-control:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 0.2rem rgba(0, 102, 179, 0.15);
+  background-color: #ffffff;
+}
+
+.form-label {
+  color: var(--dark-gray);
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+/* ==================== */
+/* Buttons              */
+/* ==================== */
+.btn-info {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.btn-info:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 102, 179, 0.3);
+  background: linear-gradient(135deg, var(--secondary-blue) 0%, var(--primary-blue) 100%);
+}
+
+.btn-info:active {
+  transform: translateY(0);
+}
+
+.btn-info:disabled {
+  opacity: 0.7;
+  transform: none;
+  cursor: not-allowed;
+}
+
+/* ==================== */
+/* Links                */
+/* ==================== */
+.link-info {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.link-info:hover {
+  color: var(--secondary-blue);
+}
+
+.text-muted {
+  color: #666 !important;
+  transition: color 0.3s ease;
+}
+
+.text-muted:hover {
+  color: var(--primary-blue) !important;
+}
+
+/* ==================== */
+/* Right Panel (Image)  */
+/* ==================== */
+.bg-image-vertical {
+  position: relative;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  height: 100%;
+}
+
+.image-overlay {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  padding: 40px;
+  height: 100%;
+  width: 100%;
+}
+
+.image-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0, 102, 179, 0.85) 0%, rgba(0, 184, 228, 0.85) 100%);
+}
+
+.image-overlay-content {
+  position: relative;
+  z-index: 1;
+}
+
+.image-overlay-content h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.image-overlay-content p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  opacity: 0.95;
+}
+
+.welcome-icon {
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  font-size: 60px;
+  backdrop-filter: blur(10px);
+}
+
+/* ==================== */
+/* Alert Messages       */
+/* ==================== */
+#result {
+  margin-top: 20px;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: none;
+}
+
+#result.success {
+  display: block;
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+#result.error {
+  display: block;
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* ==================== */
+/* Media Queries        */
+/* ==================== */
+@media (min-width: 1025px) {
+  .h-custom-2 {
+    height: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .col-sm-6 {
+    height: auto !important;
+    min-height: 100vh;
+  }
+
+  .text-black {
+    min-height: 100vh;
+  }
+
+  .bg-image-vertical {
+    min-height: 400px;
+    height: 400px;
+  }
+
+  .logo-section {
+    padding-top: 2rem !important;
+  }
+
+  .logo-section .h1 {
+    font-size: 1.5rem;
+  }
+
+  .logo-section i {
+    font-size: 1.5rem !important;
+  }
+
+  .logo-image {
+    max-width: 120px;
+  }
+
+  form {
+    width: 100% !important;
+    max-width: 400px;
+  }
+
+  .form-title {
+    font-size: 1.5rem !important;
+  }
+
+  .image-overlay-content h2 {
+    font-size: 2rem;
+  }
+
+  .image-overlay-content p {
+    font-size: 1rem;
+  }
+
+  .welcome-icon {
+    width: 80px;
+    height: 80px;
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .px-5 {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+
+  .logo-section .h1 {
+    font-size: 1.2rem;
+  }
+
+  .logo-image {
+    max-width: 100px;
+  }
+
+  .form-title {
+    font-size: 1.3rem !important;
+  }
+
+  .image-overlay {
+    padding: 20px;
+  }
+
+  .image-overlay-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .image-overlay-content p {
+    font-size: 0.9rem;
+  }
+
+  .welcome-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+  }
+}
+
+/* ==================== */
+/* Scrollbar Styling    */
+/* ==================== */
+.col-sm-6::-webkit-scrollbar {
+  width: 5px;
+}
+
+.col-sm-6::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.col-sm-6::-webkit-scrollbar-thumb {
+  background: rgba(0, 102, 179, 0.3);
+  border-radius: 10px;
+}
+
+.col-sm-6::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 102, 179, 0.5);
+}
