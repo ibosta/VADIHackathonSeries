@@ -33,27 +33,87 @@ export async function generateEncryptedKeys(password) {
         ["encrypt", "decrypt"]
     );
 
-    // 3. Private Key'i Şifrele
     const privateKeyBuffer = await window.crypto.subtle.exportKey("pkcs8", keyPair.privateKey);
-    const iv = window.crypto.getRandomValues(new Uint8Array(12)); // Rastgele IV
+    const iv = window.crypto.getRandomValues(new Uint8Array(12));
     const encryptedContent = await window.crypto.subtle.encrypt(
         { name: "AES-GCM", iv: iv },
         derivedKey,
         privateKeyBuffer
     );
 
-    // 4. BÜYÜ BURADA: IV ve Şifreli Veriyi Birleştiriyoruz
-    // [IV (12 byte)] + [Şifreli Veri] = Tek Bir Buffer
     const combinedBuffer = new Uint8Array(iv.byteLength + encryptedContent.byteLength);
     combinedBuffer.set(iv);
     combinedBuffer.set(new Uint8Array(encryptedContent), iv.byteLength);
 
-    // 5. Public Key'i hazırla
     const publicKeyBuffer = await window.crypto.subtle.exportKey("spki", keyPair.publicKey);
 
-    // SONUÇ: Sadece iki temiz değişken
     return {
         publicKey: arrayBufferToBase64(publicKeyBuffer),
-        encryptedPrivateKey: arrayBufferToBase64(combinedBuffer.buffer) // IV içinde gizli
+        encryptedPrivateKey: arrayBufferToBase64(combinedBuffer.buffer)
+    };
+}
+
+function base64ToArrayBuffer(base64) {
+    const binaryString = window.atob(base64);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
+async function importPublicKey(base64Key) {
+    const binaryKey = base64ToArrayBuffer(base64Key);
+    return await window.crypto.subtle.importKey(
+        "spki",
+        binaryKey,
+        {
+            name: "RSA-OAEP",
+            hash: "SHA-256"
+        },
+        true,
+        ["encrypt"]
+    );
+}
+
+export async function encryptFileForUpload(file, publicKeyBase64) {
+    const aesKey = await window.crypto.subtle.generateKey(
+        {
+            name: "AES-GCM",
+            length: 256
+        },
+        true,
+        ["encrypt", "decrypt"]
+    );
+
+    const iv = window.crypto.getRandomValues(new Uint8Array(12));
+    const fileBuffer = await file.arrayBuffer();
+
+    const encryptedContentBuffer = await window.crypto.subtle.encrypt(
+        {
+            name: "AES-GCM",
+            iv: iv
+        },
+        aesKey,
+        fileBuffer
+    );
+
+    const publicKey = await importPublicKey(publicKeyBase64);
+
+    const rawAesKey = await window.crypto.subtle.exportKey("raw", aesKey);
+
+    const encryptedAesKeyBuffer = await window.crypto.subtle.encrypt(
+        {
+            name: "RSA-OAEP"
+        },
+        publicKey,
+        rawAesKey
+    );
+
+    return {
+        encryptedBlob: new Blob([encryptedContentBuffer], { type: 'application/octet-stream' }),
+        iv: arrayBufferToBase64(iv),
+        encryptedAesKey: arrayBufferToBase64(encryptedAesKeyBuffer)
     };
 }
