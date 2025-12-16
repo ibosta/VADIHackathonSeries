@@ -5,8 +5,21 @@ const registerForm = document.getElementById('signupForm');
 const resultDiv = document.getElementById('result');
 
 async function handleUserRegistration(email, password) {
-    resultDiv.style.color = "blue";
-    resultDiv.textContent = "Kayıt işlemi başladı, lütfen bekleyin...";
+    // Buton durumunu değiştir
+    const button = registerForm.querySelector('button[type="submit"]');
+    const originalText = button.textContent;
+    button.textContent = 'Kayıt yapılıyor...';
+    button.disabled = true;
+
+    resultDiv.textContent = "⏳ Kayıt işlemi başladı, lütfen bekleyin...";
+    resultDiv.className = '';
+    resultDiv.style.display = 'block';
+    resultDiv.style.background = '#d1ecf1';
+    resultDiv.style.color = '#0c5460';
+    resultDiv.style.border = '1px solid #bee5eb';
+    resultDiv.style.padding = '12px 15px';
+    resultDiv.style.borderRadius = '8px';
+    resultDiv.style.marginTop = '20px';
 
     const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
@@ -15,15 +28,17 @@ async function handleUserRegistration(email, password) {
 
     if (authError) {
         console.error("Kayıt hatası:", authError);
-        resultDiv.style.color = "red";
-        resultDiv.textContent = "Hata: " + authError.message;
+        resultDiv.textContent = "❌ Kayıt hatası: " + authError.message;
+        resultDiv.className = 'error';
+        button.textContent = originalText;
+        button.disabled = false;
         return;
     }
 
     const userId = authData.user.id;
 
     console.log("Anahtarlar üretiliyor...");
-    resultDiv.textContent = "Kullanıcı oluşturuldu. Şifreleme anahtarları üretiliyor...";
+    resultDiv.textContent = "🔐 Kullanıcı oluşturuldu. Şifreleme anahtarları üretiliyor...";
 
     try {
         const keys = await generateEncryptedKeys(password);
@@ -38,22 +53,28 @@ async function handleUserRegistration(email, password) {
 
         if (profileError) {
             console.error("Profil güncelleme hatası:", profileError);
-            resultDiv.style.color = "red";
-            resultDiv.textContent = "Profil güncelleme hatası: " + profileError.message;
+            resultDiv.textContent = "❌ Profil güncelleme hatası: " + profileError.message;
+            resultDiv.className = 'error';
+            button.textContent = originalText;
+            button.disabled = false;
         } else {
             console.log("Başarılı!");
-            resultDiv.style.color = "green";
-            resultDiv.textContent = "Kayıt başarılı! Anahtarlar güvenle oluşturuldu.";
+            resultDiv.textContent = "✅ Kayıt başarılı! Anahtarlar güvenle oluşturuldu. Yönlendiriliyorsunuz...";
+            resultDiv.className = 'success';
 
             registerForm.reset();
 
-            window.location.href = 'login.html';
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1500);
         }
 
     } catch (err) {
         console.error("Anahtar üretim hatası:", err);
-        resultDiv.style.color = "red";
-        resultDiv.textContent = "Kriptografik hata oluştu.";
+        resultDiv.textContent = "❌ Kriptografik hata oluştu: " + err.message;
+        resultDiv.className = 'error';
+        button.textContent = originalText;
+        button.disabled = false;
     }
 }
 
@@ -62,6 +83,23 @@ registerForm.addEventListener('submit', async (e) => {
 
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    // Şifre kontrolü
+    if (password !== confirmPassword) {
+        resultDiv.textContent = "❌ Şifreler eşleşmiyor! Lütfen aynı şifreyi girin.";
+        resultDiv.className = 'error';
+        resultDiv.style.display = 'block';
+        return;
+    }
+
+    // Şifre uzunluk kontrolü
+    if (password.length < 6) {
+        resultDiv.textContent = "❌ Şifre en az 6 karakter olmalıdır.";
+        resultDiv.className = 'error';
+        resultDiv.style.display = 'block';
+        return;
+    }
 
     await handleUserRegistration(email, password);
 });
