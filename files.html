@@ -3,37 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Dosyalarım</title>
     <style>
-        body { font-family: sans-serif; margin: 0; padding: 20px; }
-        .navbar { background-color: #333; overflow: hidden; border-radius: 5px; margin-bottom: 20px; }
-        .navbar a { float: left; display: block; color: #f2f2f2; text-align: center; padding: 14px 16px; text-decoration: none; }
-        .navbar a:hover { background-color: #ddd; color: black; }
-        .navbar a.active { background-color: #04AA6D; color: white; }
-        .container { max-width: 1000px; margin: 0 auto; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            background-color: var(--color-gray-50);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: var(--gradient-primary);
+            color: var(--color-white);
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar-header img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            background: var(--color-white);
+            padding: 8px;
+        }
+
+        .sidebar-header h1 {
+            margin: 0;
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--color-white);
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            padding: 16px 25px;
+            color: var(--color-white);
+            text-decoration: none;
+            font-size: var(--font-size-base);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: var(--color-white);
+            padding-left: 30px;
+        }
+
+        .sidebar-nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-left-color: var(--color-white);
+            font-weight: 600;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
         th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         th { background-color: #f4f4f4; }
-        table { width: 100%; border-collapse: collapse; }
-        .btn-upload { background-color: #28a745; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; font-size: 0.9em; float: right; }
-        .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
-        .modal-content { background-color: #fff; margin: 10% auto; padding: 20px; border-radius: 8px; width: 400px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-        .modal h3 { margin-top: 0; }
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: var(--shadow-md); border-radius: var(--border-radius-md); }
+        .btn-upload { background-color: var(--color-primary); color: white; padding: 10px 20px; text-decoration: none; border-radius: var(--border-radius-md); font-size: 0.9em; float: right; transition: all 0.3s ease; }
+        .btn-upload:hover { background-color: var(--color-secondary); }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: #fff; margin: 10% auto; padding: 30px; border-radius: var(--border-radius-lg); width: 400px; box-shadow: var(--shadow-lg); }
+        .modal h3 { margin-top: 0; color: var(--color-primary); }
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--color-dark); }
+        .form-group input { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: var(--border-radius-md); }
         .modal-actions { text-align: right; margin-top: 20px; }
-        .btn-cancel { padding: 8px 16px; cursor: pointer; background-color: #ccc; border: none; border-radius: 4px; }
-        .btn-confirm { padding: 8px 16px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px; }
+        .btn-cancel { padding: 10px 20px; cursor: pointer; background-color: #ccc; border: none; border-radius: var(--border-radius-md); margin-right: 10px; }
+        .btn-confirm { padding: 10px 20px; cursor: pointer; background-color: var(--color-primary); color: white; border: none; border-radius: var(--border-radius-md); }
     </style>
 </head>
 <body>
 
-    <div class="navbar">
-        <a href="index.html">Ana Sayfa</a>
-        <a href="files.html" class="active">Dosyalarım</a>
-        <a href="shared.html">Bana Paylaşılanlar</a>
-        <a href="upload.html">Dosya Yükle</a>
-    </div>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img src="img/logo.png" alt="Logo">
+            <h1>SecureShare</h1>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="files.html" class="active">Dosyalarım</a>
+            <a href="shared.html">Bana Paylaşılanlar</a>
+            <a href="upload.html">Dosya Yükle</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
 
 <div class="container">
     <h2>
@@ -85,6 +170,6 @@
 </div>
 
 <script type="module" src="files.js"></script>
-
+    </main>
 </body>
 </html>
