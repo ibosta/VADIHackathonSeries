@@ -1,11 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 20px; }
+        .navbar { background-color: #333; overflow: hidden; border-radius: 5px; margin-bottom: 20px; }
+        .navbar a { float: left; display: block; color: #f2f2f2; text-align: center; padding: 14px 16px; text-decoration: none; }
+        .navbar a:hover { background-color: #ddd; color: black; }
+        .navbar a.active { background-color: #04AA6D; color: white; }
+        .welcome-box { text-align: center; margin-top: 50px; }
+    </style>
+    <title>Güvenli Dosya Paylaşımı</title>
 </head>
 <body>
-    
+
+    <div class="navbar">
+        <a href="index.html" class="active">Ana Sayfa</a>
+        <a href="files.html">Dosyalarım</a>
+        <a href="shared.html">Bana Paylaşılanlar</a>
+        <a href="upload.html">Dosya Yükle</a>
+    </div>
+
+    <div class="welcome-box">
+        <h1>Hoş Geldiniz</h1>
+        <p>Güvenli dosya paylaşım platformuna giriş yaptınız.</p>
+        <p>Yukarıdaki menüyü kullanarak dosyalarınızı yönetebilirsiniz.</p>
+    </div>
+
 </body>
 </html>
