@@ -75,4 +75,4 @@ registerForm.addEventListener('submit', async (e) => {
     const password = document.getElementById('password').value;
 
     await handleUserRegistration(email, password, username);
-});
+});                 

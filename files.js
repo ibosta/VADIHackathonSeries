@@ -148,7 +148,7 @@ async function handleShareProcess() {
                 receiver_id: recipient.id,
                 encrypted_key_for_receiver: encryptedKeyForReceiver,
                 expires_at: expiresAt ? new Date(expiresAt).toISOString() : null,
-                download_remained: limit
+                downloads_remained: limit
             });
         }
 
