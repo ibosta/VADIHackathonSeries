@@ -9,7 +9,6 @@ form.addEventListener('submit', async (e) => {
     const email = document.getElementById('email').value
     const password = document.getElementById('password').value
 
-    // Buton durumunu değiştir
     const button = form.querySelector('button[type="submit"]')
     const originalText = button.textContent
     button.textContent = 'Giriş yapılıyor...'
@@ -28,14 +27,11 @@ form.addEventListener('submit', async (e) => {
         return
     }
 
-    // başarılı login
     result.textContent = 'Giriş başarılı! Yönlendiriliyorsunuz...'
     result.className = 'success'
 
-    // Cache password for key generation if needed
     sessionStorage.setItem('temp_session_pwd', password);
 
-    // index.html'e yönlendir
     setTimeout(() => {
         window.location.href = 'index.html'
     }, 1000)
