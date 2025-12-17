@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,92 +16,72 @@
             min-height: 100vh;
         }
 
-        .sidebar {
-            width: 280px;
-            background: var(--gradient-primary);
-            color: var(--color-white);
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .sidebar-header {
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: var(--shadow-md);
+            border-radius: var(--border-radius-md);
         }
 
-        .sidebar-header img {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            background: var(--color-white);
-            padding: 8px;
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
         }
 
-        .sidebar-header h1 {
-            margin: 0;
-            font-size: var(--font-size-xl);
-            font-weight: 700;
-            color: var(--color-white);
+        th {
+            background-color: #f4f4f4;
         }
 
-        .sidebar-nav {
-            flex: 1;
-            padding: 20px 0;
-        }
-
-        .sidebar-nav a {
-            display: block;
-            padding: 16px 25px;
-            color: var(--color-white);
-            text-decoration: none;
-            font-size: var(--font-size-base);
+        button {
+            cursor: pointer;
+            padding: 8px 16px;
+            border: none;
+            border-radius: var(--border-radius-md);
+            color: white;
             transition: all 0.3s ease;
-            border-left: 4px solid transparent;
         }
 
-        .sidebar-nav a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-left-color: var(--color-white);
-            padding-left: 30px;
+        .btn-download {
+            background-color: var(--color-primary);
         }
 
-        .sidebar-nav a.active {
-            background: rgba(255, 255, 255, 0.2);
-            border-left-color: var(--color-white);
-            font-weight: 600;
+        .btn-download:hover {
+            background-color: var(--color-secondary);
         }
 
-        .main-content {
-            margin-left: 280px;
-            flex: 1;
-            padding: 40px;
+        .btn-download:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; }
-        table { width: 100%; border-collapse: collapse; background: white; box-shadow: var(--shadow-md); border-radius: var(--border-radius-md); }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #f4f4f4; }
-        button { cursor: pointer; padding: 8px 16px; border: none; border-radius: var(--border-radius-md); color: white; transition: all 0.3s ease; }
-        .btn-download { background-color: var(--color-primary); }
-        .btn-download:hover { background-color: var(--color-secondary); }
-        .btn-download:disabled { background-color: #ccc; cursor: not-allowed; }
-        .status-expired { color: red; font-weight: bold; font-size: 0.8em; }
-        .status-active { color: green; font-weight: bold; font-size: 0.8em; }
+        .status-expired {
+            color: red;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        .status-active {
+            color: green;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
     </style>
 </head>
+
 <body>
 
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="img/logo.png" alt="Logo">
-            <h1>SecureShare</h1>
+            <h1>Dosya Vadisi</h1>
         </div>
         <nav class="sidebar-nav">
             <a href="index.html">Ana Sayfa</a>
@@ -112,28 +93,29 @@
 
     <main class="main-content">
 
-<div class="container">
-    <h2>Benimle Paylaşılan Dosyalar</h2>
-    
-    <div id="status"></div>
+        <div class="container">
+            <h2>Benimle Paylaşılan Dosyalar</h2>
 
-    <table id="sharedTable">
-        <thead>
-            <tr>
-                <th>Dosya Adı</th>
-                <th>Gönderen</th>
-                <th>Son Kullanma</th>
-                <th>Kalan İndirme</th>
-                <th>İşlem</th>
-            </tr>
-        </thead>
-        <tbody id="sharedFileList">
-            </tbody>
-    </table>
-    <div id="loading">Yükleniyor...</div>
-</div>
+            <div id="status"></div>
 
-<script type="module" src="shared.js"></script>
+            <table id="sharedTable">
+                <thead>
+                    <tr>
+                        <th>Dosya Adı</th>
+                        <th>Gönderen</th>
+                        <th>Son Kullanma</th>
+                        <th>Kalan İndirme</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody id="sharedFileList">
+                </tbody>
+            </table>
+            <div id="loading">Yükleniyor...</div>
+        </div>
+
+        <script type="module" src="shared.js"></script>
     </main>
 </body>
+
 </html>

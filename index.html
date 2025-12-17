@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,111 +15,16 @@
             display: flex;
             min-height: 100vh;
         }
-
-        /* Sidebar Navigation */
-        .sidebar {
-            width: 280px;
-            background: var(--gradient-primary);
-            color: var(--color-white);
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Logo Section */
-        .sidebar-header {
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .sidebar-header img {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            background: var(--color-white);
-            padding: 8px;
-        }
-
-        .sidebar-header h1 {
-            margin: 0;
-            font-size: var(--font-size-xl);
-            font-weight: 700;
-            color: var(--color-white);
-        }
-
-        /* Navigation Menu */
-        .sidebar-nav {
-            flex: 1;
-            padding: 20px 0;
-        }
-
-        .sidebar-nav a {
-            display: block;
-            padding: 16px 25px;
-            color: var(--color-white);
-            text-decoration: none;
-            font-size: var(--font-size-base);
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
-        }
-
-        .sidebar-nav a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-left-color: var(--color-white);
-            padding-left: 30px;
-        }
-
-        .sidebar-nav a.active {
-            background: rgba(255, 255, 255, 0.2);
-            border-left-color: var(--color-white);
-            font-weight: 600;
-        }
-
-        /* Main Content Area */
-        .main-content {
-            margin-left: 280px;
-            flex: 1;
-            padding: 40px;
-        }
-
-        .welcome-box {
-            background: var(--color-white);
-            padding: 60px 40px;
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--shadow-md);
-            text-align: center;
-            max-width: 800px;
-            margin: 100px auto;
-        }
-
-        .welcome-box h1 {
-            color: var(--color-primary);
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .welcome-box p {
-            color: var(--color-dark);
-            font-size: var(--font-size-lg);
-            line-height: 1.6;
-            margin: 15px 0;
-        }
     </style>
 </head>
+
 <body>
 
     <!-- Sidebar Navigation -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="img/logo.png" alt="Logo">
-            <h1>SecureShare</h1>
+            <h1>Dosya Vadisi</h1>
         </div>
         <nav class="sidebar-nav">
             <a href="index.html" class="active">Ana Sayfa</a>
@@ -138,4 +44,5 @@
     </main>
 
 </body>
+
 </html>

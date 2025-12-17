@@ -4,7 +4,7 @@ import { generateEncryptedKeys } from './cryptoUtils.js';
 const registerForm = document.getElementById('signupForm');
 const resultDiv = document.getElementById('result');
 
-async function handleUserRegistration(email, password) {
+async function handleUserRegistration(email, password, username) {
     // Buton durumunu değiştir
     const button = registerForm.querySelector('button[type="submit"]');
     const originalText = button.textContent;
@@ -19,7 +19,6 @@ async function handleUserRegistration(email, password) {
     const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
-        // İsterseniz meta data olarak da ekleyebilirsiniz, ama aşağıda profile ekliyoruz.
         options: {
             data: { username: username }
         }
@@ -46,7 +45,7 @@ async function handleUserRegistration(email, password) {
         const { error: profileError } = await supabase
             .from('profiles')
             .update({
-                username: username, // <--- BURASI EKLENDİ
+                username: username,
                 public_key: keys.publicKey,
                 encrypted_private_key: keys.encryptedPrivateKey
             })
@@ -62,6 +61,9 @@ async function handleUserRegistration(email, password) {
             console.log("Başarılı!");
             resultDiv.textContent = "Kayıt başarılı! Anahtarlar güvenle oluşturuldu. Yönlendiriliyorsunuz...";
             resultDiv.className = 'success';
+
+            // Cache password for immediate use if needed (auto-login scenario)
+            sessionStorage.setItem('temp_session_pwd', password);
 
             registerForm.reset();
 
