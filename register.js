@@ -4,13 +4,19 @@ import { generateEncryptedKeys } from './cryptoUtils.js';
 const registerForm = document.getElementById('signupForm');
 const resultDiv = document.getElementById('result');
 
-async function handleUserRegistration(email, password) {
+// 1. Fonksiyon parametresine username eklendi
+async function handleUserRegistration(email, password, username) {
     resultDiv.style.color = "blue";
     resultDiv.textContent = "Kayıt işlemi başladı, lütfen bekleyin...";
 
+    // Auth işlemi (Kullanıcı oluşturma)
     const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
+        // İsterseniz meta data olarak da ekleyebilirsiniz, ama aşağıda profile ekliyoruz.
+        options: {
+            data: { username: username }
+        }
     });
 
     if (authError) {
@@ -28,9 +34,11 @@ async function handleUserRegistration(email, password) {
     try {
         const keys = await generateEncryptedKeys(password);
 
+        // 2. Profiles tablosu güncellenirken username de eklendi
         const { error: profileError } = await supabase
             .from('profiles')
             .update({
+                username: username, // <--- BURASI EKLENDİ
                 public_key: keys.publicKey,
                 encrypted_private_key: keys.encryptedPrivateKey
             })
@@ -47,6 +55,7 @@ async function handleUserRegistration(email, password) {
 
             registerForm.reset();
 
+            // Kullanıcıyı hemen yönlendirmek isteyebilirsiniz
             window.location.href = 'login.html';
         }
 
@@ -60,8 +69,10 @@ async function handleUserRegistration(email, password) {
 registerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    // 3. Formdan veriyi çekip fonksiyona iletiyoruz
+    const username = document.getElementById('username').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    await handleUserRegistration(email, password);
+    await handleUserRegistration(email, password, username);
 });
