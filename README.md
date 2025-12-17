@@ -37,6 +37,69 @@ Proje, HTML, CSS ve JavaScript dosyalarından oluşmaktadır. Supabase, arka uç
 
 - **`img/logo.png`**: Projenin logosudur.
 
+## Kurulum ve Çalıştırma
+
+### Ön Gereksinimler
+
+Projeyi çalıştırmak için aşağıdakilerin yüklü olması gerekmektedir:
+- **Node.js** (v14 veya daha yüksek) ve **npm**
+- Modern web tarayıcı (Chrome, Firefox, Safari, Edge)
+- Aktif bir Supabase projesi
+
+### Adım 1: Projeyi Klonlayın
+
+```bash
+git clone <repo-url>
+cd VADIHackathonSeries
+```
+
+### Adım 2: Bağımlılıkları Kurun
+
+```bash
+npm install
+```
+
+### Adım 3: Ortam Değişkenlerini Ayarlayın
+
+Proje kökünde `.env` dosyası oluşturun ve aşağıdaki Supabase bilgilerini ekleyin:
+
+```
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+Supabase projenizdeki API ayarlarından bu değerleri alabilirsiniz.
+
+### Adım 4: Uygulamayı Çalıştırın
+
+Geliştirme sunucusunu başlatmak için:
+
+```bash
+npm run dev
+```
+
+Uygulama, genellikle `http://localhost:5173` adresinde açılacaktır.
+
+### Adım 5: Tarayıcıda Açın
+
+Tarayıcıyı açın ve aşağıdaki adrese gidin:
+
+```
+http://localhost:5173
+```
+
+Uygulamanın giriş sayfası sizi karşılayacaktır.
+
+### Production Build
+
+Production için derlemek üzere:
+
+```bash
+npm run build
+```
+
+Build çıktısı `dist` klasöründe oluşturulacaktır.
+
 ## Kullanım
 
 1.  Uygulamayı kullanmaya başlamak için `register.html` sayfası üzerinden bir hesap oluşturun.
