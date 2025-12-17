@@ -10,27 +10,23 @@ const clearQueueBtn = document.querySelector('.btn-queue-clear');
 
 let fileQueue = [];
 
-// Initialize listeners
 document.addEventListener('DOMContentLoaded', () => {
-    // File input handling
+
     fileInput.addEventListener('change', (e) => {
         if (e.target.files.length > 0) {
             handleFiles(Array.from(e.target.files));
-            // Reset input value to allow selecting the same file again (e.g. after removing from queue)
             fileInput.value = '';
         }
     });
 
-    // Clear queue
     clearQueueBtn?.addEventListener('click', () => {
         fileQueue = [];
         renderQueue();
     });
 
-    // Upload Action
+
     uploadBtn.addEventListener('click', processUploadQueue);
 
-    // Setup Drag & Drop
     const uploadDropZone = document.querySelector('.upload-drop-zone');
     if (uploadDropZone) {
         uploadDropZone.addEventListener('dragover', (e) => {
@@ -58,13 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function handleFiles(files) {
-    // Filter duplicates if needed, or just append
+
     files.forEach(file => {
-        // Simple check to avoid exact duplicates in current queue
         if (!fileQueue.some(f => f.name === file.name && f.size === file.size)) {
             fileQueue.push({
                 file: file,
-                status: 'pending', // pending, uploading, success, error
+                status: 'pending',
                 message: ''
             });
         }
@@ -75,7 +70,6 @@ function handleFiles(files) {
 function renderQueue() {
     fileListQueue.innerHTML = '';
 
-    // Update Title count
     if (queueTitle) {
         queueTitle.textContent = `Yükleme Kuyruğu (${fileQueue.length})`;
     }
@@ -98,7 +92,7 @@ function renderQueue() {
         } else if (item.status === 'error') {
             statusIcon = `<span style="color:red">⚠️</span>`;
         } else if (item.status === 'uploading') {
-            statusIcon = `<div class="spinner-sm"></div>`; // Needs css for spinner
+            statusIcon = `<div class="spinner-sm"></div>`;
         }
 
         const html = `
@@ -126,7 +120,6 @@ function renderQueue() {
         fileListQueue.insertAdjacentHTML('beforeend', html);
     });
 
-    // Attach Remove Event Listeners
     document.querySelectorAll('.btn-remove').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const index = parseInt(e.currentTarget.getAttribute('data-index'));
@@ -154,7 +147,6 @@ async function processUploadQueue() {
     for (let i = 0; i < fileQueue.length; i++) {
         const item = fileQueue[i];
         if (item.status === 'pending' || item.status === 'error') {
-            // Update UI to uploading
             item.status = 'uploading';
             item.message = 'Hazırlanıyor...';
             renderQueue();
@@ -197,10 +189,8 @@ async function uploadSingleFile(queueItem) {
         .eq('id', user.id)
         .single();
 
-    // Recover if missing keys
     if (profileError || !profile?.public_key) {
 
-        // Try getting cached password from session
         const sessionPassword = sessionStorage.getItem('temp_session_pwd');
 
         if (!sessionPassword) {
@@ -223,7 +213,6 @@ async function uploadSingleFile(queueItem) {
 
             if (updateError) throw updateError;
 
-            // Set profile data for next steps
             profile = { public_key: keys.publicKey };
 
         } catch (err) {
