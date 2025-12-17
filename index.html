@@ -2,25 +2,269 @@
 <html lang="tr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Güvenli Dosya Paylaşımı</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-family);
-            background-color: var(--color-gray-50);
-            display: flex;
-            min-height: 100vh;
-        }
-    </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<link rel="stylesheet" href="styles.css">
+	<title>SecureShare - Dashboard</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: var(--font-family);
+			background-color: var(--color-gray-50);
+			display: flex;
+			min-height: 100vh;
+		}
+
+		/* Sidebar (Mevcut yapıyı koruyoruz) */
+		.sidebar {
+			width: 280px;
+			background: var(--gradient-primary);
+			color: var(--color-white);
+			position: fixed;
+			height: 100vh;
+			left: 0;
+			top: 0;
+			display: flex;
+			flex-direction: column;
+			box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+			z-index: 100;
+		}
+
+		.sidebar-header {
+			padding: 30px 20px;
+			text-align: center;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+		}
+
+		.sidebar-header img {
+			width: 60px;
+			height: 60px;
+			margin-bottom: 15px;
+			border-radius: 12px;
+			background: white;
+			padding: 8px;
+		}
+
+		.sidebar-header h1 {
+			margin: 0;
+			font-size: 1.5rem;
+			font-weight: 700;
+		}
+
+		.sidebar-nav {
+			flex: 1;
+			padding: 20px 0;
+		}
+
+		.sidebar-nav a {
+			display: block;
+			padding: 16px 25px;
+			color: rgba(255, 255, 255, 0.8);
+			text-decoration: none;
+			font-size: 1rem;
+			transition: all 0.3s ease;
+			border-left: 4px solid transparent;
+		}
+
+		.sidebar-nav a:hover {
+			background: rgba(255, 255, 255, 0.1);
+			color: white;
+			padding-left: 30px;
+		}
+
+		.sidebar-nav a.active {
+			background: rgba(255, 255, 255, 0.2);
+			border-left-color: white;
+			color: white;
+			font-weight: 600;
+		}
+
+		/* DASHBOARD CONTENT STYLES */
+		.main-content {
+			margin-left: 280px;
+			flex: 1;
+			padding: 40px;
+			width: calc(100% - 280px);
+		}
+
+		.dashboard-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 30px;
+		}
+
+		.dashboard-header h2 {
+			font-size: 2rem;
+			color: #111827;
+			margin: 0;
+		}
+
+		.dashboard-header p {
+			color: #6b7280;
+			margin-top: 5px;
+		}
+
+		/* Stats Cards */
+		.stats-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+			gap: 25px;
+			margin-bottom: 30px;
+		}
+
+		.stat-card {
+			background: white;
+			padding: 25px;
+			border-radius: 16px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+			transition: transform 0.2s;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.stat-card:hover {
+			transform: translateY(-5px);
+		}
+
+		.stat-info h3 {
+			margin: 0;
+			font-size: 0.9rem;
+			color: #6b7280;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+
+		.stat-info p {
+			margin: 10px 0 0 0;
+			font-size: 2rem;
+			font-weight: 700;
+			color: #111827;
+		}
+
+		.stat-icon {
+			width: 50px;
+			height: 50px;
+			border-radius: 12px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.5rem;
+		}
+
+		.icon-blue {
+			background: #e0e7ff;
+			color: #4f46e5;
+		}
+
+		.icon-green {
+			background: #dcfce7;
+			color: #16a34a;
+		}
+
+		.icon-purple {
+			background: #f3e8ff;
+			color: #9333ea;
+		}
+
+		.icon-orange {
+			background: #ffedd5;
+			color: #ea580c;
+		}
+
+		/* Dashboard Lower Section */
+		.dashboard-lower {
+			display: grid;
+			grid-template-columns: 2fr 1fr;
+			gap: 25px;
+		}
+
+		.content-card {
+			background: white;
+			border-radius: 16px;
+			padding: 25px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+		}
+
+		.card-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 20px;
+			border-bottom: 1px solid #f3f4f6;
+			padding-bottom: 15px;
+		}
+
+		.card-header h3 {
+			margin: 0;
+			color: #374151;
+			font-size: 1.25rem;
+		}
+
+		/* Recent Files Table */
+		.recent-table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		.recent-table th,
+		.recent-table td {
+			text-align: left;
+			padding: 12px;
+			border-bottom: 1px solid #f3f4f6;
+		}
+
+		.recent-table th {
+			color: #9ca3af;
+			font-weight: 600;
+			font-size: 0.85rem;
+		}
+
+		.recent-table td {
+			color: #4b5563;
+			font-size: 0.95rem;
+		}
+
+		.recent-table tr:last-child td {
+			border-bottom: none;
+		}
+
+		.file-icon {
+			margin-right: 10px;
+		}
+
+		.badge {
+			padding: 4px 8px;
+			border-radius: 6px;
+			font-size: 0.75rem;
+			font-weight: 600;
+		}
+
+		.badge-gray {
+			background: #f3f4f6;
+			color: #4b5563;
+		}
+
+		/* Chart Container */
+		.chart-container {
+			position: relative;
+			height: 250px;
+			width: 100%;
+		}
+
+		@media (max-width: 1024px) {
+			.dashboard-lower {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
 </head>
 
 <body>
 
-    <!-- Sidebar Navigation -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="img/logo.png" alt="Logo">
@@ -29,20 +273,90 @@
         <nav class="sidebar-nav">
             <a href="index.html" class="active">Ana Sayfa</a>
             <a href="files.html">Dosyalarım</a>
-            <a href="shared.html">Bana Paylaşılanlar</a>
+            <a href="shared.html" >Bana Paylaşılanlar</a>
             <a href="upload.html">Dosya Yükle</a>
+			<div id="logout">
+				ÇIKIŞ YAP
+			</div>
         </nav>
     </aside>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="welcome-box">
-            <h1>Hoş Geldiniz</h1>
-            <p>Güvenli dosya paylaşım platformuna giriş yaptınız.</p>
-            <p>Yukarıdaki menüyü kullanarak dosyalarınızı yönetebilirsiniz.</p>
-        </div>
-    </main>
+	<main class="main-content">
+		<div class="dashboard-header">
+			<div>
+				<h2 id="welcomeMsg">Hoş Geldiniz 👋</h2>
+				<p>Dosyalarınızın ve paylaşımlarınızın güncel durumu.</p>
+			</div>
+			<div id="currentDate" style="color: #6b7280; font-weight: 500;"></div>
+		</div>
 
+		<div class="stats-grid">
+			<div class="stat-card">
+				<div class="stat-info">
+					<h3>Toplam Dosya</h3>
+					<p id="totalFiles">0</p>
+				</div>
+				<div class="stat-icon icon-blue">📁</div>
+			</div>
+			<div class="stat-card">
+				<div class="stat-info">
+					<h3>Giden Paylaşım</h3>
+					<p id="sharedByMe">0</p>
+				</div>
+				<div class="stat-icon icon-green">🚀</div>
+			</div>
+			<div class="stat-card">
+				<div class="stat-info">
+					<h3>Gelen Paylaşım</h3>
+					<p id="sharedWithMe">0</p>
+				</div>
+				<div class="stat-icon icon-purple">📥</div>
+			</div>
+			<div class="stat-card">
+				<div class="stat-info">
+					<h3>Son Aktivite</h3>
+					<p id="lastActivity">Yok</p>
+				</div>
+				<div class="stat-icon icon-orange">⏱️</div>
+			</div>
+		</div>
+
+		<div class="dashboard-lower">
+			<div class="content-card">
+				<div class="card-header">
+					<h3>Son Yüklenen Dosyalar</h3>
+					<a href="files.html" style="text-decoration: none; color: #4f46e5; font-size: 0.9rem;">Tümünü Gör
+						→</a>
+				</div>
+				<table class="recent-table">
+					<thead>
+						<tr>
+							<th>Dosya Adı</th>
+							<th>Tarih</th>
+							<th>Tür</th>
+						</tr>
+					</thead>
+					<tbody id="recentFilesTable">
+						<tr>
+							<td colspan="3">Yükleniyor...</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="content-card">
+				<div class="card-header">
+					<h3>Dosya Türü Dağılımı</h3>
+				</div>
+				<div class="chart-container">
+					<canvas id="fileTypeChart"></canvas>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<script type="module" src="dashboard.js"></script>
+	<script type="module" src="supabase.js"></script>
 </body>
 
 </html>
