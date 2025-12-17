@@ -4,10 +4,16 @@ import { generateEncryptedKeys } from './cryptoUtils.js';
 const registerForm = document.getElementById('signupForm');
 const resultDiv = document.getElementById('result');
 
-// 1. Fonksiyon parametresine username eklendi
-async function handleUserRegistration(email, password, username) {
-    resultDiv.style.color = "blue";
-    resultDiv.textContent = "Kayıt işlemi başladı, lütfen bekleyin...";
+async function handleUserRegistration(email, password) {
+    // Buton durumunu değiştir
+    const button = registerForm.querySelector('button[type="submit"]');
+    const originalText = button.textContent;
+    button.textContent = 'Kayıt yapılıyor...';
+    button.disabled = true;
+
+    resultDiv.textContent = "⏳ Kayıt işlemi başladı, lütfen bekleyin...";
+    resultDiv.className = 'alert alert-info';
+    resultDiv.setAttribute('role', 'alert');
 
     // Auth işlemi (Kullanıcı oluşturma)
     const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -21,8 +27,10 @@ async function handleUserRegistration(email, password, username) {
 
     if (authError) {
         console.error("Kayıt hatası:", authError);
-        resultDiv.style.color = "red";
-        resultDiv.textContent = "Hata: " + authError.message;
+        resultDiv.textContent = "❌ Kayıt hatası: " + authError.message;
+        resultDiv.className = 'error';
+        button.textContent = originalText;
+        button.disabled = false;
         return;
     }
 
@@ -46,12 +54,14 @@ async function handleUserRegistration(email, password, username) {
 
         if (profileError) {
             console.error("Profil güncelleme hatası:", profileError);
-            resultDiv.style.color = "red";
-            resultDiv.textContent = "Profil güncelleme hatası: " + profileError.message;
+            resultDiv.textContent = "❌ Profil güncelleme hatası: " + profileError.message;
+            resultDiv.className = 'error';
+            button.textContent = originalText;
+            button.disabled = false;
         } else {
             console.log("Başarılı!");
-            resultDiv.style.color = "green";
-            resultDiv.textContent = "Kayıt başarılı! Anahtarlar güvenle oluşturuldu.";
+            resultDiv.textContent = "Kayıt başarılı! Anahtarlar güvenle oluşturuldu. Yönlendiriliyorsunuz...";
+            resultDiv.className = 'success';
 
             registerForm.reset();
 
@@ -61,8 +71,10 @@ async function handleUserRegistration(email, password, username) {
 
     } catch (err) {
         console.error("Anahtar üretim hatası:", err);
-        resultDiv.style.color = "red";
-        resultDiv.textContent = "Kriptografik hata oluştu.";
+        resultDiv.textContent = "Kriptografik hata oluştu: " + err.message;
+        resultDiv.className = 'error';
+        button.textContent = originalText;
+        button.disabled = false;
     }
 }
 
@@ -73,6 +85,23 @@ registerForm.addEventListener('submit', async (e) => {
     const username = document.getElementById('username').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    // Şifre kontrolü
+    if (password !== confirmPassword) {
+        resultDiv.textContent = "Şifreler eşleşmiyor! Lütfen aynı şifreyi girin.";
+        resultDiv.className = 'error';
+        resultDiv.style.display = 'block';
+        return;
+    }
+
+    // Şifre uzunluk kontrolü
+    if (password.length < 6) {
+        resultDiv.textContent = "Şifre en az 6 karakter olmalıdır.";
+        resultDiv.className = 'error';
+        resultDiv.style.display = 'block';
+        return;
+    }
 
     await handleUserRegistration(email, password, username);
 });                 

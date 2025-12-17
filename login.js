@@ -9,19 +9,31 @@ form.addEventListener('submit', async (e) => {
     const email = document.getElementById('email').value
     const password = document.getElementById('password').value
 
+    // Buton durumunu değiştir
+    const button = form.querySelector('button[type="submit"]')
+    const originalText = button.textContent
+    button.textContent = 'Giriş yapılıyor...'
+    button.disabled = true
+
     const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
     })
 
     if (error) {
-        result.textContent = 'Login error: ' + error.message
+        result.textContent = 'Giriş hatası: ' + error.message
+        result.className = 'error'
+        button.textContent = originalText
+        button.disabled = false
         return
     }
 
     // başarılı login
-    result.textContent = 'Login successful! Redirecting...'
+    result.textContent = 'Giriş başarılı! Yönlendiriliyorsunuz...'
+    result.className = 'success'
 
     // index.html'e yönlendir
-    window.location.href = 'index.html'
+    setTimeout(() => {
+        window.location.href = 'index.html'
+    }, 1000)
 })
