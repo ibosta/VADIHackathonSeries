@@ -22,17 +22,15 @@ const viewGridBtn = document.getElementById('viewGrid');
 
 let currentFileToShare = null;
 let allFiles = [];
-let currentView = 'list'; // 'list' or 'grid'
+let currentView = 'list';
 
 document.addEventListener('DOMContentLoaded', fetchFiles);
 
-// Event listeners for search and filters
 searchInput.addEventListener('input', filterAndRenderFiles);
 sortFilter.addEventListener('change', filterAndRenderFiles);
 typeFilter.addEventListener('change', filterAndRenderFiles);
 groupByTypeCheckbox.addEventListener('change', filterAndRenderFiles);
 
-// View toggle
 viewListBtn.addEventListener('click', () => {
     currentView = 'list';
     viewListBtn.classList.add('active');
@@ -132,7 +130,6 @@ function getFileTypeGroupIcon(type) {
 function filterAndRenderFiles() {
     let filtered = [...allFiles];
     
-    // Search filter
     const searchTerm = searchInput.value.toLowerCase();
     if (searchTerm) {
         filtered = filtered.filter(file => 
@@ -140,13 +137,11 @@ function filterAndRenderFiles() {
         );
     }
     
-    // Type filter
     const typeValue = typeFilter.value;
     if (typeValue !== 'all') {
         filtered = filtered.filter(file => getFileType(file.filename) === typeValue);
     }
     
-    // Sort
     const sortValue = sortFilter.value;
     filtered.sort((a, b) => {
         switch(sortValue) {
@@ -163,7 +158,6 @@ function filterAndRenderFiles() {
         }
     });
     
-    // Check if grouping is enabled
     const shouldGroup = groupByTypeCheckbox.checked;
     
     if (currentView === 'list') {
@@ -238,7 +232,6 @@ function renderGroupedList(files) {
         return;
     }
 
-    // Group files by type
     const grouped = {};
     files.forEach(file => {
         const type = getFileType(file.filename);
@@ -246,11 +239,9 @@ function renderGroupedList(files) {
         grouped[type].push(file);
     });
 
-    // Render each group
     Object.keys(grouped).forEach(type => {
         const groupFiles = grouped[type];
         
-        // Group header
         const headerRow = document.createElement('tr');
         headerRow.innerHTML = `
             <td colspan="4" style="background: #f9fafb; padding: 12px 16px;">
@@ -263,7 +254,7 @@ function renderGroupedList(files) {
         `;
         fileList.appendChild(headerRow);
 
-        // Group files
+
         groupFiles.forEach(file => {
             const tr = document.createElement('tr');
             const date = new Date(file.created_at).toLocaleDateString('tr-TR', {
@@ -355,7 +346,6 @@ function renderGroupedGrid(files) {
         return;
     }
 
-    // Group files by type
     const grouped = {};
     files.forEach(file => {
         const type = getFileType(file.filename);
@@ -363,7 +353,6 @@ function renderGroupedGrid(files) {
         grouped[type].push(file);
     });
 
-    // Render each group
     Object.keys(grouped).forEach(type => {
         const groupFiles = grouped[type];
         
