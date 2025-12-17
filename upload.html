@@ -15,6 +15,25 @@
             display: flex;
             min-height: 100vh;
         }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h2 {
+            font-size: 2rem;
+            color: #111827;
+            margin: 0 0 5px 0;
+        }
+
+        .page-subtitle {
+            color: #6b7280;
+            margin: 0;
+            font-size: 0.95rem;
+        }
     </style>
 </head>
 
@@ -35,6 +54,13 @@
     </aside>
 
     <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h2>Dosya Yükle</h2>
+                <p class="page-subtitle">Dosyalarınızı güvenli bir şekilde şifreleyip yükleyin</p>
+            </div>
+        </div>
+
         <div class="upload-grid">
             <!-- Left Column: Upload Area -->
             <div class="upload-sticky">
