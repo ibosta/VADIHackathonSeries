@@ -17,6 +17,7 @@
 			min-height: 100vh;
 		}
 
+		/* Sidebar (Mevcut yapıyı koruyoruz) */
 		.sidebar {
 			width: 280px;
 			background: var(--gradient-primary);
@@ -53,6 +54,7 @@
 			color: var(--color-white);
 		}
 
+		/* DASHBOARD CONTENT STYLES */
 		.main-content {
 			margin-left: 280px;
 			flex: 1;
@@ -78,6 +80,7 @@
 			margin-top: 5px;
 		}
 
+		/* Stats Cards */
 		.stats-grid {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -145,6 +148,7 @@
 			color: #ea580c;
 		}
 
+		/* Dashboard Lower Section */
 		.dashboard-lower {
 			display: grid;
 			grid-template-columns: 2fr 1fr;
@@ -173,6 +177,7 @@
 			font-size: 1.25rem;
 		}
 
+		/* Recent Files Table */
 		.recent-table {
 			width: 100%;
 			border-collapse: collapse;
@@ -216,6 +221,7 @@
 			color: #4b5563;
 		}
 
+		/* Chart Container */
 		.chart-container {
 			position: relative;
 			height: 250px;
@@ -249,7 +255,7 @@
 	<main class="main-content">
 		<div class="dashboard-header">
 			<div>
-				<h2>Hoş Geldiniz</h2>
+				<h2>Hoş Geldiniz </h2>
 				<p>Dosyalarınızın ve paylaşımlarınızın güncel durumu.</p>
 			</div>
 			<div id="currentDate" style="color: #6b7280; font-weight: 500;"></div>
@@ -268,21 +274,21 @@
 					<h3>Giden Paylaşım</h3>
 					<p id="sharedByMe">0</p>
 				</div>
-				<div class="stat-icon icon-green"></div>
+				<div class="stat-icon icon-green">🚀</div>
 			</div>
 			<div class="stat-card">
 				<div class="stat-info">
 					<h3>Gelen Paylaşım</h3>
 					<p id="sharedWithMe">0</p>
 				</div>
-				<div class="stat-icon icon-purple"></div>
+				<div class="stat-icon icon-purple">📥</div>
 			</div>
 			<div class="stat-card">
 				<div class="stat-info">
 					<h3>Son Aktivite</h3>
 					<p id="lastActivity">Yok</p>
 				</div>
-				<div class="stat-icon icon-orange"></div>
+				<div class="stat-icon icon-orange">⏱️</div>
 			</div>
 		</div>
 
