@@ -1067,7 +1067,8 @@ a:focus-visible {
   padding: 20px 0;
 }
 
-.sidebar-nav a {
+.sidebar-nav a,
+.sidebar-nav #logout {
   display: block;
   padding: 16px 25px;
   color: var(--color-white);
@@ -1075,9 +1076,11 @@ a:focus-visible {
   font-size: var(--font-size-base);
   transition: all 0.3s ease;
   border-left: 4px solid transparent;
+  cursor: pointer;
 }
 
-.sidebar-nav a:hover {
+.sidebar-nav a:hover,
+.sidebar-nav #logout:hover {
   background: rgba(255, 255, 255, 0.1);
   border-left-color: var(--color-white);
   padding-left: 30px;
