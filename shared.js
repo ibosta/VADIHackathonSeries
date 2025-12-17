@@ -19,7 +19,6 @@ let currentView = 'list';
 
 document.addEventListener('DOMContentLoaded', fetchSharedFiles);
 
-// Event listeners
 if (searchInput) searchInput.addEventListener('input', filterAndRenderShares);
 if (sortFilter) sortFilter.addEventListener('change', filterAndRenderShares);
 if (statusFilter) statusFilter.addEventListener('change', filterAndRenderShares);
@@ -150,8 +149,7 @@ function isShareActive(share) {
 
 function filterAndRenderShares() {
     let filtered = [...allShares];
-    
-    // Search filter
+
     if (searchInput) {
         const searchTerm = searchInput.value.toLowerCase();
         if (searchTerm) {
@@ -164,7 +162,6 @@ function filterAndRenderShares() {
         }
     }
     
-    // Status filter
     if (statusFilter) {
         const statusValue = statusFilter.value;
         if (statusValue !== 'all') {
@@ -176,7 +173,6 @@ function filterAndRenderShares() {
         }
     }
     
-    // Type filter
     if (typeFilter) {
         const typeValue = typeFilter.value;
         if (typeValue !== 'all') {
@@ -186,8 +182,7 @@ function filterAndRenderShares() {
             });
         }
     }
-    
-    // Sort
+
     if (sortFilter) {
         const sortValue = sortFilter.value;
         filtered.sort((a, b) => {
