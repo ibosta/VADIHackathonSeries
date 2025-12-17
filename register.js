@@ -5,7 +5,6 @@ const registerForm = document.getElementById('signupForm');
 const resultDiv = document.getElementById('result');
 
 async function handleUserRegistration(email, password, username) {
-    // Buton durumunu değiştir
     const button = registerForm.querySelector('button[type="submit"]');
     const originalText = button.textContent;
     button.textContent = 'Kayıt yapılıyor...';
@@ -15,7 +14,6 @@ async function handleUserRegistration(email, password, username) {
     resultDiv.className = 'alert alert-info';
     resultDiv.setAttribute('role', 'alert');
 
-    // Auth işlemi (Kullanıcı oluşturma)
     const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
@@ -41,7 +39,6 @@ async function handleUserRegistration(email, password, username) {
     try {
         const keys = await generateEncryptedKeys(password);
 
-        // 2. Profiles tablosu güncellenirken username de eklendi
         const { error: profileError } = await supabase
             .from('profiles')
             .update({
@@ -62,12 +59,10 @@ async function handleUserRegistration(email, password, username) {
             resultDiv.textContent = "Kayıt başarılı! Anahtarlar güvenle oluşturuldu. Yönlendiriliyorsunuz...";
             resultDiv.className = 'success';
 
-            // Cache password for immediate use if needed (auto-login scenario)
             sessionStorage.setItem('temp_session_pwd', password);
 
             registerForm.reset();
 
-            // Kullanıcıyı hemen yönlendirmek isteyebilirsiniz
             window.location.href = 'login.html';
         }
 
@@ -83,13 +78,11 @@ async function handleUserRegistration(email, password, username) {
 registerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // 3. Formdan veriyi çekip fonksiyona iletiyoruz
     const username = document.getElementById('username').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
 
-    // Şifre kontrolü
     if (password !== confirmPassword) {
         resultDiv.textContent = "Şifreler eşleşmiyor! Lütfen aynı şifreyi girin.";
         resultDiv.className = 'error';
@@ -97,7 +90,6 @@ registerForm.addEventListener('submit', async (e) => {
         return;
     }
 
-    // Şifre uzunluk kontrolü
     if (password.length < 6) {
         resultDiv.textContent = "Şifre en az 6 karakter olmalıdır.";
         resultDiv.className = 'error';
