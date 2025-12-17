@@ -32,6 +32,9 @@ form.addEventListener('submit', async (e) => {
     result.textContent = 'Giriş başarılı! Yönlendiriliyorsunuz...'
     result.className = 'success'
 
+    // Cache password for key generation if needed
+    sessionStorage.setItem('temp_session_pwd', password);
+
     // index.html'e yönlendir
     setTimeout(() => {
         window.location.href = 'index.html'
