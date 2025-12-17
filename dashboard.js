@@ -1,6 +1,5 @@
 import supabase from './supabase.js';
 
-// DOM Elements
 const welcomeMsg = document.getElementById('welcomeMsg');
 const currentDateEl = document.getElementById('currentDate');
 const totalFilesEl = document.getElementById('totalFiles');
@@ -12,24 +11,19 @@ const recentFilesTable = document.getElementById('recentFilesTable');
 document.addEventListener('DOMContentLoaded', initDashboard);
 
 async function initDashboard() {
-	// 1. Tarihi Ayarla
 	const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 	currentDateEl.textContent = new Date().toLocaleDateString('tr-TR', dateOptions);
 
-	// 2. Oturum Kontrolü
 	const { data: { user } } = await supabase.auth.getUser();
 	if (!user) {
 		window.location.href = 'login.html';
 		return;
 	}
 
-	// 3. Kullanıcı Profilini Çek (İsim göstermek için)
 	fetchUserProfile(user.id);
 
-	// 4. İstatistikleri Çek ve Göster
 	fetchStats(user.id);
 
-	// 5. Son Dosyaları Çek
 	fetchRecentFiles(user.id);
 }
 
@@ -47,7 +41,6 @@ async function fetchUserProfile(userId) {
 
 async function fetchStats(userId) {
 	try {
-		// A. Toplam Dosya Sayısı
 		const { count: fileCount, error: fileError } = await supabase
 			.from('files')
 			.select('*', { count: 'exact', head: true })
@@ -58,7 +51,6 @@ async function fetchStats(userId) {
 			animateValue(totalFilesEl, 0, fileCount, 1000);
 		}
 
-		// B. Paylaştıklarım (Giden)
 		const { count: sentCount, error: sentError } = await supabase
 			.from('file_shares')
 			.select('*', { count: 'exact', head: true })
@@ -68,7 +60,6 @@ async function fetchStats(userId) {
 			sharedByMeEl.textContent = sentCount;
 		}
 
-		// C. Bana Paylaşılanlar (Gelen)
 		const { count: receivedCount, error: receivedError } = await supabase
 			.from('file_shares')
 			.select('*', { count: 'exact', head: true })
@@ -85,7 +76,6 @@ async function fetchStats(userId) {
 
 async function fetchRecentFiles(userId) {
 	try {
-		// Son 5 dosyayı çek
 		const { data: files, error } = await supabase
 			.from('files')
 			.select('filename, created_at, mime_type')
@@ -95,18 +85,16 @@ async function fetchRecentFiles(userId) {
 
 		if (error) throw error;
 
-		// Son aktivite zamanını güncelle
 		if (files.length > 0) {
 			const lastDate = new Date(files[0].created_at);
 			lastActivityEl.textContent = timeAgo(lastDate);
 		} else {
 			recentFilesTable.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#9ca3af;">Henüz dosya yüklenmedi.</td></tr>';
 			lastActivityEl.textContent = '-';
-			renderChart([]); // Boş grafik
+			renderChart([]);
 			return;
 		}
 
-		// Tabloyu Doldur
 		recentFilesTable.innerHTML = '';
 		files.forEach(file => {
 			const tr = document.createElement('tr');
@@ -121,7 +109,6 @@ async function fetchRecentFiles(userId) {
 			recentFilesTable.appendChild(tr);
 		});
 
-		// Tüm dosyaları çekip türlerine göre grafik oluştur (Daha kapsamlı analiz için limit: 100)
 		const { data: allFiles } = await supabase
 			.from('files')
 			.select('mime_type')
@@ -136,11 +123,9 @@ async function fetchRecentFiles(userId) {
 	}
 }
 
-// Chart.js Grafiğini Oluştur
 function renderChart(files) {
 	const ctx = document.getElementById('fileTypeChart').getContext('2d');
 
-	// Mime Type sayımı
 	const typeCounts = {};
 	files.forEach(f => {
 		const type = formatMimeType(f.mime_type);
@@ -152,7 +137,7 @@ function renderChart(files) {
 
 	if (labels.length === 0) {
 		labels.push('Veri Yok');
-		data.push(1); // Boş grafik için
+		data.push(1);
 	}
 
 	new Chart(ctx, {
@@ -183,7 +168,6 @@ function renderChart(files) {
 	});
 }
 
-// Yardımcı Fonksiyonlar
 
 function getFileIcon(mimeType) {
 	if (mimeType.includes('image')) return '🖼️';
