@@ -1,24 +1,13 @@
-/* ==================== */
-/* Design System        */
-/* ==================== */
-
-/* Color Palette - Pantone Standards */
 :root {
-  /* Primary Colors */
   --color-primary: #0066B3;
-  /* Pantone 3005C */
   --color-secondary: #00B8E4;
-  /* Pantone 306C */
   --color-dark: #2B2B2B;
-  /* Pantone BLACK C (67/61/61/74) */
   --color-black: #000000;
   --color-white: #FFFFFF;
 
-  /* Gradient */
   --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   --gradient-primary-reverse: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
 
-  /* UI Colors */
   --color-success-bg: rgba(0, 184, 228, 0.15);
   --color-success-text: var(--color-primary);
   --color-success-border: var(--color-secondary);
@@ -31,73 +20,52 @@
   --color-info-text: var(--color-primary);
   --color-info-border: var(--color-primary);
 
-  /* Neutral Colors */
   --color-gray-50: #F9F9F9;
   --color-gray-100: #F0F0F0;
   --color-gray-200: #E0E0E0;
   --color-gray-400: #999999;
   --color-gray-600: #666666;
 
-  /* Typography */
   --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --font-size-xs: 0.75rem;
-  /* 12px */
   --font-size-sm: 0.875rem;
-  /* 14px */
   --font-size-base: 1rem;
-  /* 16px */
   --font-size-lg: 1.125rem;
-  /* 18px */
   --font-size-xl: 1.25rem;
-  /* 20px */
   --font-size-2xl: 1.5rem;
-  /* 24px */
   --font-size-3xl: 2rem;
-  /* 32px */
   --font-size-4xl: 3rem;
-  /* 48px */
 
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* Spacing */
   --spacing-xs: 0.25rem;
-  /* 4px */
   --spacing-sm: 0.5rem;
-  /* 8px */
   --spacing-md: 1rem;
-  /* 16px */
   --spacing-lg: 1.5rem;
-  /* 24px */
   --spacing-xl: 2rem;
-  /* 32px */
   --spacing-2xl: 3rem;
-  /* 48px */
   --spacing-3xl: 4rem;
-  /* 64px */
-
-  /* Border Radius */
+  
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-full: 9999px;
 
-  /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   --shadow-button: 0 8px 20px rgba(0, 102, 179, 0.3);
 
-  /* Transitions */
+
   --transition-fast: 150ms ease;
   --transition-base: 300ms ease;
   --transition-slow: 500ms ease;
 
-  /* Breakpoints (for reference in media queries) */
   --breakpoint-xs: 320px;
   --breakpoint-sm: 480px;
   --breakpoint-md: 768px;
@@ -105,9 +73,7 @@
   --breakpoint-xl: 1280px;
 }
 
-/* ==================== */
-/* Global Resets        */
-/* ==================== */
+
 *,
 *::before,
 *::after {
@@ -116,9 +82,7 @@
   box-sizing: border-box;
 }
 
-/* ==================== */
-/* Base Styles          */
-/* ==================== */
+
 html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
@@ -136,15 +100,12 @@ body {
   overflow-x: hidden;
 }
 
-/* Focus styles for accessibility */
 *:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-/* ==================== */
-/* Layout               */
-/* ==================== */
+
 .vh-100 {
   min-height: 100vh;
   height: 100vh;
@@ -164,21 +125,16 @@ body {
   flex-wrap: wrap;
 }
 
-/* Form Column - 40% */
 .col-form {
   flex: 0 0 40%;
   max-width: 40%;
 }
 
-/* Image Column - 60% */
 .col-image {
   flex: 0 0 60%;
   max-width: 60%;
 }
 
-/* ==================== */
-/* Left Panel (Form)    */
-/* ==================== */
 .text-black {
   background-color: #ffffff;
   height: 100vh;
@@ -188,16 +144,12 @@ body {
   overflow-y: auto;
   padding: var(--spacing-lg);
 
-  /* Scrollbar gizle */
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* IE ve Edge */
 }
 
 .text-black::-webkit-scrollbar {
   display: none;
-  /* Chrome, Safari, Opera */
 }
 
 .form-wrapper {
@@ -207,16 +159,12 @@ body {
   display: flex;
   flex-direction: column;
 
-  /* Scrollbar gizle */
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* IE ve Edge */
 }
 
 .form-wrapper::-webkit-scrollbar {
   display: none;
-  /* Chrome, Safari, Opera */
 }
 
 .form-container {
@@ -258,9 +206,7 @@ body {
   margin-bottom: var(--spacing-md);
 }
 
-/* ==================== */
-/* Form Components      */
-/* ==================== */
+
 .form-outline {
   margin-bottom: var(--spacing-md);
 }
@@ -306,9 +252,6 @@ body {
   opacity: 0.6;
 }
 
-/* ==================== */
-/* Button Components    */
-/* ==================== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -372,9 +315,6 @@ body {
   display: flex;
 }
 
-/* ==================== */
-/* Link Components      */
-/* ==================== */
 a {
   color: var(--color-primary);
   text-decoration: none;
@@ -410,9 +350,6 @@ a:focus-visible {
   color: var(--color-primary);
 }
 
-/* ==================== */
-/* Right Panel (Image)  */
-/* ==================== */
 .bg-image-vertical {
   position: relative;
   overflow: hidden;
@@ -457,16 +394,12 @@ a:focus-visible {
   justify-content: center;
   padding: var(--spacing-md);
 
-  /* Scrollbar gizle */
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* IE ve Edge */
 }
 
 .image-overlay-content::-webkit-scrollbar {
   display: none;
-  /* Chrome, Safari, Opera */
 }
 
 .image-overlay-content h2 {
@@ -537,9 +470,7 @@ a:focus-visible {
   flex-shrink: 0;
 }
 
-/* ==================== */
-/* Alert Components     */
-/* ==================== */
+
 .alert {
   padding: var(--spacing-md) var(--spacing-lg);
   border-radius: var(--radius-md);
@@ -581,11 +512,7 @@ a:focus-visible {
   border-color: var(--color-info-border);
 }
 
-/* ==================== */
-/* Responsive Design    */
-/* ==================== */
 
-/* Desktop Large - 1280px+ */
 @media (min-width: 1280px) {
   .container-fluid {
     max-width: 1920px;
@@ -608,7 +535,6 @@ a:focus-visible {
   }
 }
 
-/* Desktop - 1024px+ */
 @media (min-width: 1024px) {
   .h-custom-2 {
     height: 100%;
@@ -619,9 +545,9 @@ a:focus-visible {
   }
 }
 
-/* Tablet - 768px to 1023px */
+
 @media (max-width: 1023px) {
-  /* Keep side-by-side layout but adjust paddings/sizes */
+
 
   .logo-section {
     padding-top: var(--spacing-lg) !important;
@@ -651,7 +577,6 @@ a:focus-visible {
 
   .image-overlay-content h2 {
     font-size: 1.5rem;
-    /* Reduced from 2xl */
     margin-bottom: var(--spacing-sm);
   }
 
@@ -662,13 +587,11 @@ a:focus-visible {
 
   .animation-container {
     height: 250px;
-    /* Reduced height */
     margin-bottom: var(--spacing-md);
   }
 
   .transfer-system {
     transform: scale(0.65);
-    /* Reduced scale */
   }
 
   .feature-list {
@@ -682,7 +605,6 @@ a:focus-visible {
   }
 }
 
-/* Mobile Large - 480px to 767px */
 @media (max-width: 767px) {
   .col-form {
     flex: 0 0 100%;
@@ -726,7 +648,6 @@ a:focus-visible {
   }
 }
 
-/* Mobile - 320px to 479px */
 @media (max-width: 479px) {
   .px-5 {
     padding-left: var(--spacing-md) !important;
@@ -779,25 +700,17 @@ a:focus-visible {
   }
 }
 
-/* ==================== */
-/* Scrollbar Styling    */
-/* ==================== */
-/* Tüm scrollbar'ları gizle - Temiz görünüm */
+
 * {
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* IE ve Edge */
 }
 
 *::-webkit-scrollbar {
   display: none;
-  /* Chrome, Safari, Opera */
 }
 
-/* ==================== */
-/* Animation Area       */
-/* ==================== */
+
 .animation-container {
   position: relative;
   width: 100%;
@@ -814,7 +727,6 @@ a:focus-visible {
   height: 300px;
 }
 
-/* Central Hub */
 .central-hub {
   position: absolute;
   top: 50%;
@@ -840,7 +752,7 @@ a:focus-visible {
   filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
 }
 
-/* Orbit Rings */
+
 .orbit {
   position: absolute;
   top: 50%;
@@ -862,7 +774,6 @@ a:focus-visible {
   animation: spin 30s linear infinite reverse;
 }
 
-/* Floating Files */
 .file-item {
   position: absolute;
   width: 40px;
@@ -896,7 +807,6 @@ a:focus-visible {
   animation: float-transfer-3 4.5s ease-in-out infinite 0.5s;
 }
 
-/* Connection Lines */
 .connection-line {
   position: absolute;
   top: 50%;
@@ -928,7 +838,6 @@ a:focus-visible {
   animation: transfer-line 3s ease-in-out infinite 0.5s;
 }
 
-/* Keyframes */
 @keyframes pulse-hub {
 
   0%,
@@ -1007,7 +916,6 @@ a:focus-visible {
   }
 }
 
-/* Update Image Overlay for Animation */
 .image-overlay-content {
   width: 100%;
   max-width: 600px;
@@ -1023,9 +931,7 @@ a:focus-visible {
   margin-top: var(--spacing-xl);
 }
 
-/* ==================== */
-/* Sidebar Navigation   */
-/* ==================== */
+
 .sidebar {
   width: 280px;
   background: var(--gradient-primary);
@@ -1092,9 +998,7 @@ a:focus-visible {
   font-weight: 600;
 }
 
-/* ==================== */
-/* Main Content Area    */
-/* ==================== */
+
 .main-content {
   margin-left: 280px;
   flex: 1;
@@ -1107,7 +1011,6 @@ a:focus-visible {
   background: var(--color-white);
   padding: 60px 40px;
   border-radius: var(--border-radius-lg);
-  /* Assuming uses standard var, fix if needed */
   border-radius: 12px;
   box-shadow: var(--shadow-md);
   text-align: center;
@@ -1129,9 +1032,7 @@ a:focus-visible {
   margin: 15px 0;
 }
 
-/* ==================== */
-/* Upload Screen Styles */
-/* ==================== */
+
 .upload-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -1148,10 +1049,10 @@ a:focus-visible {
 .upload-sticky {
   position: sticky;
   top: 6rem;
-  /* top-24 approx */
+
 }
 
-/* Drop Zone */
+
 .upload-drop-zone {
   position: relative;
   width: 100%;
@@ -1219,7 +1120,6 @@ a:focus-visible {
   background-color: var(--color-secondary);
 }
 
-/* Queue Section */
 .queue-header {
   display: flex;
   justify-content: space-between;
@@ -1307,7 +1207,6 @@ a:focus-visible {
 
 .icon-success {
   color: #10B981;
-  /* Tailwind green-500 approx */
 }
 
 .btn-remove {
@@ -1362,7 +1261,7 @@ a:focus-visible {
   background-color: var(--color-gray-100);
 }
 
-/* Success Card */
+
 .upload-success-card {
   background: var(--color-white);
   border: 1px solid var(--color-gray-200);
