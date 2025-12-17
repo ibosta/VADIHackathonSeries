@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dosyalarım</title>
+    <style>
+        /* Modal Styles */
+        .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+        .modal-content { background-color: #fff; margin: 10% auto; padding: 20px; border-radius: 8px; width: 400px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .modal h3 { margin-top: 0; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .modal-actions { text-align: right; margin-top: 20px; }
+    </style>
 </head>
 <body>
 
@@ -13,21 +23,47 @@
         <a href="upload.html" class="btn-upload">Yeni Dosya Yükle</a>
     </h2>
     
-    <div id="status" class="error"></div>
+    <div id="status"></div>
 
     <table id="filesTable">
         <thead>
             <tr>
                 <th>Dosya Adı</th>
                 <th>Tarih</th>
-                <th>Boyut</th>
-                <th>İşlem</th>
+                <th>İşlemler</th>
             </tr>
         </thead>
         <tbody id="fileList">
             </tbody>
     </table>
     <div id="loading">Yükleniyor...</div>
+</div>
+
+<div id="shareModal" class="modal">
+    <div class="modal-content">
+        <h3>Dosya Paylaş</h3>
+        <p id="shareFileName" style="color:#666; font-size:0.9rem; margin-bottom:15px;"></p>
+        
+        <div class="form-group">
+            <label for="shareUsernames">Kullanıcı Adları (Virgülle ayırın)</label>
+            <input type="text" id="shareUsernames" placeholder="ornek1, arkadas2">
+        </div>
+
+        <div class="form-group">
+            <label for="shareExpires">Son Kullanma Tarihi (Opsiyonel)</label>
+            <input type="datetime-local" id="shareExpires">
+        </div>
+
+        <div class="form-group">
+            <label for="shareLimit">İndirme Hakkı (-1 limitsiz)</label>
+            <input type="number" id="shareLimit" value="-1">
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn-cancel" id="closeModalBtn">İptal</button>
+            <button class="btn-confirm" id="confirmShareBtn">Paylaş</button>
+        </div>
+    </div>
 </div>
 
 <script type="module" src="files.js"></script>

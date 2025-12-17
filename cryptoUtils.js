@@ -180,3 +180,41 @@ export async function decryptFile(fileBlob, metadata, encryptedPrivateKey, passw
 
     return new Blob([decryptedContent], { type: metadata.mime_type });
 }
+
+export async function reEncryptKeyForShare(encryptedPrivateKey, password, currentEncryptedAesKey, recipientPublicKeyBase64) {
+    const enc = new TextEncoder();
+
+    const fixedSalt = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+    const material = await window.crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]);
+    const wrappingKey = await window.crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt: fixedSalt, iterations: 100000, hash: "SHA-256" },
+        material, { name: "AES-GCM", length: 256 }, false, ["decrypt"]
+    );
+
+    const encryptedPrivKeyBuffer = base64ToArrayBuffer(encryptedPrivateKey);
+    const privKeyIV = encryptedPrivKeyBuffer.slice(0, 12);
+    const privKeyData = encryptedPrivKeyBuffer.slice(12);
+
+    const privateKeyBuffer = await window.crypto.subtle.decrypt(
+        { name: "AES-GCM", iv: privKeyIV }, wrappingKey, privKeyData
+    );
+    const senderPrivateKey = await window.crypto.subtle.importKey(
+        "pkcs8", privateKeyBuffer, { name: "RSA-OAEP", hash: "SHA-256" }, true, ["decrypt"]
+    );
+
+    const encryptedAesKeyBuffer = base64ToArrayBuffer(currentEncryptedAesKey);
+    const rawAesKeyBuffer = await window.crypto.subtle.decrypt(
+        { name: "RSA-OAEP" }, senderPrivateKey, encryptedAesKeyBuffer
+    );
+
+    const recipientPublicKeyBuffer = base64ToArrayBuffer(recipientPublicKeyBase64);
+    const recipientPublicKey = await window.crypto.subtle.importKey(
+        "spki", recipientPublicKeyBuffer, { name: "RSA-OAEP", hash: "SHA-256" }, true, ["encrypt"]
+    );
+
+    const newEncryptedAesKey = await window.crypto.subtle.encrypt(
+        { name: "RSA-OAEP" }, recipientPublicKey, rawAesKeyBuffer
+    );
+
+    return arrayBufferToBase64(newEncryptedAesKey);
+}
