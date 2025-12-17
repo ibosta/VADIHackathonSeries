@@ -62,7 +62,6 @@
         </div>
 
         <div class="upload-grid">
-            <!-- Left Column: Upload Area -->
             <div class="upload-sticky">
                 <div class="upload-drop-zone">
                     <input type="file" multiple class="hidden" id="fileInput">
@@ -84,7 +83,6 @@
                     </label>
                 </div>
 
-                <!-- Action Button -->
                 <button id="uploadBtn" class="btn btn-primary w-100" style="margin-top: 20px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -98,7 +96,6 @@
                 <div id="status" style="margin-top: 10px;"></div>
             </div>
 
-            <!-- Right Column: Queue & Status -->
             <div class="space-y-4">
                 <div class="queue-header">
                     <h2 class="queue-title">Yükleme Kuyruğu (0)</h2>
@@ -114,13 +111,9 @@
                     </button>
                 </div>
 
-                <!-- File List Container -->
-                <div id="fileListQueue" class="space-y-4">
-                    <!-- Items will be injected here via JS if needed, or by default just empty -->
-                </div>
 
-                <!-- Success/Share Card (Initially Hidden) -->
-                <!-- Use existing logic. Existing JS writes to div id="status". I've kept it above. -->
+                <div id="fileListQueue" class="space-y-4">
+                </div>
             </div>
         </div>
 
